@@ -284,9 +284,39 @@ pub trait Selector {
 pub type SkimItemSender = Sender<Arc<dyn SkimItem>>;
 pub type SkimItemReceiver = Receiver<Arc<dyn SkimItem>>;
 
-pub struct Skim {}
+pub struct Skim {
+    // pub options: &'a SkimOptions<'a>,
+    pub term: Arc<Term>,
+}
 
 impl Skim {
+    pub fn new_from_term(term: Term) -> Self {
+        Self { term: Arc::new(term) }
+    }
+
+    // pub fn new(options: &'a SkimOptions) -> Self {
+    //     let min_height = options
+    //         .min_height
+    //         .map(Skim::parse_height_string)
+    //         .expect("min_height should have default values");
+    //     let height = options
+    //         .height
+    //         .map(Skim::parse_height_string)
+    //         .expect("height should have default values");
+    //     Self {
+    //         term: Arc::new(
+    //             Term::with_options(
+    //                 TermOptions::default()
+    //                     .min_height(min_height)
+    //                     .height(height)
+    //                     .clear_on_exit(!options.no_clear)
+    //                     .hold(options.select1 || options.exit0 || options.sync),
+    //             )
+    //             .unwrap(),
+    //         ),
+    //         options,
+    //     }
+    // }
     /// params:
     /// - options: the "complex" options that control how skim behaves
     /// - source: a stream of items to be passed to skim for filtering.
@@ -295,6 +325,48 @@ impl Skim {
     /// return:
     /// - None: on internal errors.
     /// - SkimOutput: the collected key, event, query, selected items, etc.
+    pub fn run_without(self: &Self, source: Option<SkimItemReceiver>) -> Option<SkimOutput> {
+        let options = &SkimOptions::default();
+        let (tx, rx): (EventSender, EventReceiver) = channel();
+        if !options.no_mouse {
+            let _ = self.term.enable_mouse_support();
+        }
+
+        //------------------------------------------------------------------------------
+        // input
+        let mut input = input::Input::new();
+        input.parse_keymaps(&options.bind);
+        input.parse_expect_keys(options.expect.as_ref().map(String::as_str));
+
+        let tx_clone = tx.clone();
+        let term_clone = self.term.clone();
+        let input_thread = thread::spawn(move || loop {
+            if let Ok(key) = term_clone.poll_event() {
+                if key == TermEvent::User(()) {
+                    break;
+                }
+
+                let (key, action_chain) = input.translate_event(key);
+                for event in action_chain.into_iter() {
+                    let _ = tx_clone.send((key, event));
+                }
+            }
+        });
+
+        //------------------------------------------------------------------------------
+        // reader
+
+        let reader = Reader::with_options(&options).source(source);
+
+        //------------------------------------------------------------------------------
+        // model + previewer
+        let mut model = Model::new(rx, tx, reader, self.term.clone(), &options);
+        let ret = model.start();
+        let _ = self.term.send_event(TermEvent::User(())); // interrupt the input thread
+        let _ = input_thread.join();
+        ret
+    }
+
     pub fn run_with(options: &SkimOptions, source: Option<SkimItemReceiver>) -> Option<SkimOutput> {
         let min_height = options
             .min_height

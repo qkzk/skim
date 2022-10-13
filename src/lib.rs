@@ -294,31 +294,7 @@ impl Skim {
         Self { term }
     }
 
-    // pub fn new(options: &'a SkimOptions) -> Self {
-    //     let min_height = options
-    //         .min_height
-    //         .map(Skim::parse_height_string)
-    //         .expect("min_height should have default values");
-    //     let height = options
-    //         .height
-    //         .map(Skim::parse_height_string)
-    //         .expect("height should have default values");
-    //     Self {
-    //         term: Arc::new(
-    //             Term::with_options(
-    //                 TermOptions::default()
-    //                     .min_height(min_height)
-    //                     .height(height)
-    //                     .clear_on_exit(!options.no_clear)
-    //                     .hold(options.select1 || options.exit0 || options.sync),
-    //             )
-    //             .unwrap(),
-    //         ),
-    //         options,
-    //     }
-    // }
     /// params:
-    /// - options: the "complex" options that control how skim behaves
     /// - source: a stream of items to be passed to skim for filtering.
     ///   If None is given, skim will invoke the command given to fetch the items.
     ///
@@ -367,6 +343,14 @@ impl Skim {
         ret
     }
 
+    /// params:
+    /// - options: the "complex" options that control how skim behaves
+    /// - source: a stream of items to be passed to skim for filtering.
+    ///   If None is given, skim will invoke the command given to fetch the items.
+    ///
+    /// return:
+    /// - None: on internal errors.
+    /// - SkimOutput: the collected key, event, query, selected items, etc.
     pub fn run_with(options: &SkimOptions, source: Option<SkimItemReceiver>) -> Option<SkimOutput> {
         let min_height = options
             .min_height

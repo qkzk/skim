@@ -17,7 +17,7 @@ pub use crate::ansi::AnsiString;
 pub use crate::engine::fuzzy::FuzzyAlgorithm;
 use crate::event::{EventReceiver, EventSender};
 use crate::model::Model;
-pub use crate::options::SkimOptions;
+pub use crate::options::{SkimOptions, SkimOptionsBuilder};
 pub use crate::output::SkimOutput;
 use crate::reader::Reader;
 
@@ -301,8 +301,10 @@ impl Skim {
     /// return:
     /// - None: on internal errors.
     /// - SkimOutput: the collected key, event, query, selected items, etc.
-    pub fn run_without(self: &Self, source: Option<SkimItemReceiver>) -> Option<SkimOutput> {
-        let options = &SkimOptions::default();
+    pub fn run_internal(self: &Self, source: Option<SkimItemReceiver>, path_str: String) -> Option<SkimOutput> {
+        let mut options = SkimOptions::default();
+        let cmd = &format!("find {}", path_str);
+        options.cmd = Some(cmd);
         let (tx, rx): (EventSender, EventReceiver) = channel();
         if !options.no_mouse {
             let _ = self.term.enable_mouse_support();

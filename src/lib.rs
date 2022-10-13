@@ -297,6 +297,7 @@ impl Skim {
     /// params:
     /// - source: a stream of items to be passed to skim for filtering.
     ///   If None is given, skim will invoke the command given to fetch the items.
+    /// - path_str: a string to a valid path in the filesystem.
     ///
     /// return:
     /// - None: on internal errors.

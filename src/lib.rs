@@ -290,8 +290,8 @@ pub struct Skim {
 }
 
 impl Skim {
-    pub fn new_from_term(term: Term) -> Self {
-        Self { term: Arc::new(term) }
+    pub fn new_from_term(term: Arc<Term>) -> Self {
+        Self { term }
     }
 
     // pub fn new(options: &'a SkimOptions) -> Self {

@@ -15,25 +15,25 @@ skim provides a single executable: `sk`. Basically anywhere you would want to us
 
 - [Installation](#installation)
 - [Usage](#usage)
-    - [As Filter](#as-filter)
-    - [As Interactive Interface](#as-interactive-interface)
-    - [Key Bindings](#key-bindings)
-    - [Search Syntax](#search-syntax)
-    - [Exit code](#exit-code)
+  - [As Filter](#as-filter)
+  - [As Interactive Interface](#as-interactive-interface)
+  - [Key Bindings](#key-bindings)
+  - [Search Syntax](#search-syntax)
+  - [Exit code](#exit-code)
 - [Customization](#customization)
-    - [Keymap to redefine](#keymap)
-    - [Sort Criteria](#sort-criteria)
-    - [Color Scheme](#color-scheme)
-    - [Misc](#misc)
+  - [Keymap to redefine](#keymap)
+  - [Sort Criteria](#sort-criteria)
+  - [Color Scheme](#color-scheme)
+  - [Misc](#misc)
 - [Advance Topics](#advance-topics)
-    - [Interactive Mode](#interactive-mode)
-    - [Executing external programs](#executing-external-programs)
-    - [Preview Window](#preview-window)
-    - [Fields Support](#fields-support)
-    - [Use as a Library](#use-as-a-library)
+  - [Interactive Mode](#interactive-mode)
+  - [Executing external programs](#executing-external-programs)
+  - [Preview Window](#preview-window)
+  - [Fields Support](#fields-support)
+  - [Use as a Library](#use-as-a-library)
 - [FAQ](#faq)
-    - [How to ignore files?](#how-to-ignore-files)
-    - [Some files are not shown in vim plugin](#some-files-are-not-shown-in-vim-plugin)
+  - [How to ignore files?](#how-to-ignore-files)
+  - [Some files are not shown in vim plugin](#some-files-are-not-shown-in-vim-plugin)
 - [Differences to fzf](#differences-to-fzf)
 - [How to contribute](#how-to-contribute)
 
@@ -47,13 +47,13 @@ The skim project contains several components:
 
 ## Package Managers
 
-| Distribution   | Package Manager   | Command                   |
-| -------------- | ----------------- | ------------------------- |
-| macOS          | Homebrew          | `brew install sk`         |
-| macOS          | MacPorts          | `sudo port install skim`  |
-| Fedora         | dnf               | `dnf install skim`        |
-| Alpine         | apk               | `apk add skim`            |
-| Arch           | pacman            | `pacman -S skim`          |
+| Distribution | Package Manager | Command                  |
+| ------------ | --------------- | ------------------------ |
+| macOS        | Homebrew        | `brew install sk`        |
+| macOS        | MacPorts        | `sudo port install skim` |
+| Fedora       | dnf             | `dnf install skim`       |
+| Alpine       | apk             | `apk add skim`           |
+| Arch         | pacman          | `pacman -S skim`         |
 
 ## Install as Vim plugin
 
@@ -68,20 +68,20 @@ Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
 Any of the following applies:
 
 - Using Git
-    ```sh
-    $ git clone --depth 1 git@github.com:lotabout/skim.git ~/.skim
-    $ ~/.skim/install
-    ```
+  ```sh
+  $ git clone --depth 1 git@github.com:lotabout/skim.git ~/.skim
+  $ ~/.skim/install
+  ```
 - Using Binary: directly [download the sk executable](https://github.com/lotabout/skim/releases).
 - Install from [crates.io](https://crates.io/): `cargo install skim`
 - Build Manually
-    ```sh
-    $ git clone --depth 1 git@github.com:lotabout/skim.git ~/.skim
-    $ cd ~/.skim
-    $ cargo install
-    $ cargo build --release
-    $ # put the resulting `target/release/sk` executable on your PATH.
-    ```
+  ```sh
+  $ git clone --depth 1 git@github.com:lotabout/skim.git ~/.skim
+  $ cd ~/.skim
+  $ cargo install
+  $ cargo build --release
+  $ # put the resulting `target/release/sk` executable on your PATH.
+  ```
 
 # Usage
 
@@ -99,6 +99,7 @@ sk
 # or pipe some input to it: (press TAB key select multiple items with -m enabled)
 vim $(find . -name "*.rs" | sk -m)
 ```
+
 The above command will allow you to select files with ".rs" extension and open
 the ones you selected in Vim.
 
@@ -128,14 +129,14 @@ sk --ansi -i -c 'rg --color=always --line-number "{}"'
 
 Some commonly used key bindings:
 
-| Key               | Action                                     |
-|------------------:|--------------------------------------------|
-| Enter             | Accept (select current one and quit)       |
-| ESC/Ctrl-G        | Abort                                      |
-| Ctrl-P/Up         | Move cursor up                             |
-| Ctrl-N/Down       | Move cursor Down                           |
-| TAB               | Toggle selection and move down (with `-m`) |
-| Shift-TAB         | Toggle selection and move up (with `-m`)   |
+|         Key | Action                                     |
+| ----------: | ------------------------------------------ |
+|       Enter | Accept (select current one and quit)       |
+|  ESC/Ctrl-G | Abort                                      |
+|   Ctrl-P/Up | Move cursor up                             |
+| Ctrl-N/Down | Move cursor Down                           |
+|         TAB | Toggle selection and move down (with `-m`) |
+|   Shift-TAB | Toggle selection and move up (with `-m`)   |
 
 For full list of key bindings, check out the [man
 page](https://github.com/lotabout/skim/blob/master/man/man1/sk.1) (`man sk`).
@@ -145,7 +146,7 @@ page](https://github.com/lotabout/skim/blob/master/man/man1/sk.1) (`man sk`).
 `skim` borrowed `fzf`'s syntax for matching items:
 
 | Token    | Match type                 | Description                       |
-|----------|----------------------------|-----------------------------------|
+| -------- | -------------------------- | --------------------------------- |
 | `text`   | fuzzy-match                | items that match `text`           |
 | `^music` | prefix-exact-match         | items that start with `music`     |
 | `.mp3$`  | suffix-exact-match         | items that end with `.mp3`        |
@@ -156,12 +157,11 @@ page](https://github.com/lotabout/skim/blob/master/man/man1/sk.1) (`man sk`).
 `skim` also supports the combination of tokens.
 
 - Whitespace has the meaning of `AND`. With the term `src main`, `skim` will search
-    for items that match **both** `src` and `main`.
-- ` | ` means `OR` (note the spaces around `|`). With the term `.md$ |
-    .markdown$`, `skim` will search for items ends with either `.md` or
-    `.markdown`.
+  for items that match **both** `src` and `main`.
+- `|` means `OR` (note the spaces around `|`). With the term `.md$ | .markdown$`, `skim` will search for items ends with either `.md` or
+  `.markdown`.
 - `OR` has higher precedence. So `readme .md$ | .markdown$` is grouped into
-    `readme AND (.md$ OR .markdown$)`.
+  `readme AND (.md$ OR .markdown$)`.
 
 In case that you want to use regular expressions, `skim` provides `regex` mode:
 
@@ -174,7 +174,7 @@ You can switch to `regex` mode dynamically by pressing `Ctrl-R` (Rotate Mode).
 ## exit code
 
 | Exit Code | Meaning                           |
-|-----------|-----------------------------------|
+| --------- | --------------------------------- |
 | 0         | Exit normally                     |
 | 1         | No Match found                    |
 | 130       | Abort by Ctrl-C/Ctrl-G/ESC/etc... |
@@ -214,7 +214,6 @@ be stuck with the default colors, `skim` supports customization of the color sch
 The configuration of colors starts with the name of the base color scheme,
 followed by custom color mappings. For example:
 
-
 ```sh
 sk --color=current_bg:24
 sk --color=light,fg:232,bg:255,current_bg:116,info:27
@@ -243,7 +242,7 @@ How it works?
 
 - Skim could accept two kinds of source: command output or piped input
 - Skim has two kinds of prompts: A query prompt to specify the query pattern and a
-    command prompt to specify the "arguments" of the command
+  command prompt to specify the "arguments" of the command
 - `-c` is used to specify the command to execute while defaults to `SKIM_DEFAULT_COMMAND`
 - `-i` is to tell skim open command prompt on startup, which will show `c>` by default.
 
@@ -289,12 +288,13 @@ syntax is explained in the section "Fields Support".
 
 Last, you might want to configure the position of preview windows, use
 `--preview-window`.
+
 - `--preview-window up:30%` to put the window in the up position with height
-    30% of the total height of skim.
+  30% of the total height of skim.
 - `--preview-window left:10:wrap`, to specify the `wrap` allows the preview
-    window to wrap the output of the preview command.
+  window to wrap the output of the preview command.
 - `--preview-window wrap:hidden` to hide the preview window at startup, later
-    it can be shown by the action `toggle-preview`.
+  it can be shown by the action `toggle-preview`.
 
 ## Fields support
 
@@ -319,9 +319,9 @@ Also you can use `--with-nth` to re-arrange the order of fields.
 - `<num>` -- to specify the `num`-th fields, starting with 1.
 - `start..` -- starting from the `start`-th fields, and the rest.
 - `..end` -- starting from the `0`-th field, all the way to `end`-th field,
-    including `end`.
+  including `end`.
 - `start..end` -- starting from `start`-th field, all the way to `end`-th
-    field, including `end`.
+  field, including `end`.
 
 ## Use as a library
 
@@ -434,3 +434,9 @@ different from fzf. For example:
 
 [Create new issues](https://github.com/lotabout/skim/issues/new) if you meet any bugs
 or have any ideas. Pull requests are warmly welcomed.
+
+# Note by qkzk
+
+This is a simple fork where I made some attributes public to use skim as an internal program in another project where I wanted a fuzzy finder.
+
+100% of the work was done by the original author, I take absolutely no credit for it.

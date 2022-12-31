@@ -1,6 +1,6 @@
 [package]
 name = "skim-qkzk"
-version = "0.9.7"
+version = "0.9.8"
 authors = ["Zhang Jinzhou <lotabout@gmail.com>", "Quentin Konieczko <qu3nt1n@gmail.com>"]
 description = "Fuzzy Finder in rust!"
 documentation = "https://docs.rs/skim"
@@ -30,7 +30,7 @@ log = "0.4.6"
 env_logger = "0.8.2"
 time = "0.2.23"
 clap = "2.26.2"
-tuikit = "0.4.5"
+tuikit = "0.5.0"
 vte = "0.9.0"
 fuzzy-matcher = "0.3.7"
 rayon = "1.0.3"

@@ -8,7 +8,7 @@
 
 set -u
 
-version="0.9.4"
+version="0.9.8"
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 skim_base="$(pwd)"
@@ -41,7 +41,7 @@ download() {
 
   check_binary
 
-  local url=https://github.com/lotabout/skim/releases/download/v$version/${1}.tar.gz
+  local url=https://github.com/qkzk/skim/releases/download/v$version/${1}.tar.gz
   echo "Downloading: $url"
   if command -v curl > /dev/null; then
     curl -fL $url | tar xz

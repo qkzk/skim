@@ -1,11 +1,11 @@
 [package]
 name = "skim-qkzk"
-version = "0.9.8"
+version = "0.9.9"
 authors = ["Zhang Jinzhou <lotabout@gmail.com>", "Quentin Konieczko <qu3nt1n@gmail.com>"]
 description = "Fuzzy Finder in rust!"
 documentation = "https://docs.rs/skim"
-homepage = "https://github.com/lotabout/skim"
-repository = "https://github.com/lotabout/skim"
+homepage = "https://github.com/qkzk/skim"
+repository = "https://github.com/qkzk/skim"
 readme  = "README.md"
 keywords = ["fuzzy", "menu", "util"]
 license = "MIT"

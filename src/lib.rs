@@ -306,6 +306,7 @@ impl Skim {
         let mut options = SkimOptions::default();
         let cmd = &format!("find {}", path_str);
         options.cmd = Some(cmd);
+        options.preview = Some("bat {} --color=always");
         let (tx, rx): (EventSender, EventReceiver) = channel();
         if !options.no_mouse {
             let _ = self.term.enable_mouse_support();

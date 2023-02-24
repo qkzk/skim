@@ -333,11 +333,11 @@ fn real_main() -> Result<i32, std::io::Error> {
     }
 
     //------------------------------------------------------------------------------
-    // let output = Skim::run_with(&options, rx_item);
-    let term = Arc::new( tuikit::term::Term::new().unwrap());
-
-    let skim = Skim::new_from_term(term);
-    let output = skim.run_internal(rx_item, ".".to_owned());
+    let output = Skim::run_with(&options, rx_item);
+    // let term = Arc::new( tuikit::term::Term::new().unwrap());
+    //
+    // let skim = Skim::new_from_term(term);
+    // let output = skim::run_internal(rx_item, ".");
     if output.is_none() { // error
         return Ok(135);
     }

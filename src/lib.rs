@@ -302,10 +302,16 @@ impl Skim {
     /// return:
     /// - None: on internal errors.
     /// - SkimOutput: the collected key, event, query, selected items, etc.
-    pub fn run_internal(self: &Self, source: Option<SkimItemReceiver>, path_str: String) -> Option<SkimOutput> {
+    pub fn run_internal(
+        self: &Self,
+        source: Option<SkimItemReceiver>,
+        path_str: String,
+        preview: Option<&str>,
+    ) -> Option<SkimOutput> {
         let mut options = SkimOptions::default();
         let cmd = &format!("find {}", path_str);
         options.cmd = Some(cmd);
+        options.preview = preview;
         let (tx, rx): (EventSender, EventReceiver) = channel();
         if !options.no_mouse {
             let _ = self.term.enable_mouse_support();

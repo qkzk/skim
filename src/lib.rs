@@ -294,6 +294,10 @@ impl Skim {
         Self { term }
     }
 
+    fn default_cmd(path_str: String) -> String {
+        format!("find {}", path_str)
+    }
+
     /// params:
     /// - source: a stream of items to be passed to skim for filtering.
     ///   If None is given, skim will invoke the command given to fetch the items.
@@ -307,10 +311,14 @@ impl Skim {
         source: Option<SkimItemReceiver>,
         path_str: String,
         preview: Option<&str>,
+        cmd: Option<String>,
     ) -> Option<SkimOutput> {
         let mut options = SkimOptions::default();
-        let cmd = &format!("find {}", path_str);
-        options.cmd = Some(cmd);
+        let cmd = match cmd {
+            None => Self::default_cmd(path_str),
+            Some(cmd) => cmd,
+        };
+        options.cmd = Some(&cmd);
         options.preview = preview;
         let (tx, rx): (EventSender, EventReceiver) = channel();
         if !options.no_mouse {

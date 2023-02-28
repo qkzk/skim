@@ -314,6 +314,7 @@ impl Skim {
         cmd: Option<String>,
     ) -> Option<SkimOutput> {
         let mut options = SkimOptions::default();
+        options.delimiter = Some(":");
         let cmd = match cmd {
             None => Self::default_cmd(path_str),
             Some(cmd) => cmd,

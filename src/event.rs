@@ -72,6 +72,7 @@ pub enum Event {
     EvActUnixWordRubout,
     EvActUp(i32),
     EvActYank,
+    EvNothing,
 
     #[doc(hidden)]
     __Nonexhaustive,

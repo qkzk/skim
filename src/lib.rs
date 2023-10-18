@@ -335,9 +335,9 @@ impl Skim {
         let term_clone = self.term.clone();
         let input_thread = thread::spawn(move || loop {
             if let Ok(key) = term_clone.poll_event() {
-                if key == TermEvent::User(()) {
-                    break;
-                }
+                // if key == TermEvent::User(()) {
+                //     break;
+                // }
 
                 let (key, action_chain) = input.translate_event(key);
                 for event in action_chain.into_iter() {
@@ -403,9 +403,9 @@ impl Skim {
         let term_clone = term.clone();
         let input_thread = thread::spawn(move || loop {
             if let Ok(key) = term_clone.poll_event() {
-                if key == TermEvent::User(()) {
-                    break;
-                }
+                // if key == TermEvent::User(()) {
+                //     break;
+                // }
 
                 let (key, action_chain) = input.translate_event(key);
                 for event in action_chain.into_iter() {

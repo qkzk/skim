@@ -32,7 +32,7 @@ impl Input {
                     }
                 }),
             ),
-            TermEvent::User(()) => (Key::Ctrl('u'), vec![Event::EvNothing]),
+            TermEvent::User(()) => (Key::Ctrl('m'), vec![Event::EvNothing]),
             TermEvent::Resize { .. } => (Key::Null, vec![Event::EvActRedraw]),
             _ => (Key::Null, vec![Event::EvInputInvalid]),
         }

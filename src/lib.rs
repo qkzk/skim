@@ -320,6 +320,7 @@ impl Skim {
         };
         options.cmd = Some(&cmd);
         options.preview = preview;
+        options.multi = true;
         let (tx, rx): (EventSender, EventReceiver) = channel();
         if !options.no_mouse {
             let _ = self.term.enable_mouse_support();

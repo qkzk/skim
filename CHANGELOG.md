@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.9.14: 2024-01-07 (qkzk)
+
+Feature:
+
+- Use "multi" in skim internal, allowing to pick and return more than one element
+
 ## 0.9.8: 2022-12-31 (qkzk)
 
 Feature:
